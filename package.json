@@ -1,0 +1,10 @@
+{
+  "name": "eikeland.se",
+  "author": "Stian Eikeland",
+  "version": "0.0.1",
+  "main": "server.coffee",
+  "dependencies": {
+    "coffee-script": "*",
+    "express": "*"
+  }
+}
