@@ -16,7 +16,8 @@ app.get '^', (req, res) ->
 
 		if error
 			console.log error
-			res.send "Something went wrong..", 503
+			res.send error, 503
+			#res.send "Something went wrong..", 503
 			return
 
 		output = []
