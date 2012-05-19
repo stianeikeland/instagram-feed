@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "main": "server.coffee",
   "dependencies": {
-    "coffee-script": "*",
-    "express": "*"
+    "coffee-script": "latest",
+    "express": "latest",
+    "instagram": "git://github.com/Swizec/nodestagram.git#master"
   },
   "engines": {
     "node": "0.6.x",
