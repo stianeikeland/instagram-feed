@@ -15,6 +15,7 @@ app.get '^', (req, res) ->
 	instagram.users.self { access_token: access_token, count: 100 }, (images, error, pagination) ->
 
 		if error
+			console.log error
 			res.send "Something went wrong..", 503
 			return
 
