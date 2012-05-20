@@ -11,26 +11,34 @@ instagram = Instagram.createClient client_id, client_secret
 app = Express.createServer Express.logger()
 app.enable "jsonp callback"
 
-app.get '^', (req, res) ->
+querycache = false
+
+app.get '/', (req, res) ->
+	
+	if querycache != false
+		res.json querycache
+		return
+	
 	instagram.users.self { access_token: access_token, count: 100 }, (images, error, pagination) ->
 
 		if error
-			console.log error
-			res.send error, 503
-			#res.send "Something went wrong..", 503
+			res.send "Something went wrong..", 503
 			return
-
+				
 		output = []
 
 		for img in images
 			output.push {
-				created_time: img.created_time
+				created_time: new Date (img.created_time * 1000)
 				link: img.link
 				image: img.images.low_resolution
 				text: img.caption.text
 			}
-
+		
 		res.json output
+		querycache = output
+		
+		setTimeout (() -> querycache = false), 20*1000
 
 port = process.env.PORT or 9000;
 app.listen port, () ->
