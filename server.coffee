@@ -19,7 +19,7 @@ app.get '/', (req, res) ->
 		res.json querycache
 		return
 	
-	instagram.users.self { access_token: access_token, count: 100 }, (images, error, pagination) ->
+	instagram.users.self { access_token: access_token, count: 200 }, (images, error, pagination) ->
 
 		if error
 			res.send "Something went wrong..", 503
@@ -28,12 +28,13 @@ app.get '/', (req, res) ->
 		output = []
 
 		for img in images
+			
 			output.push {
 				created_time: new Date (img.created_time * 1000)
 				link: img.link
 				image: img.images.low_resolution
-				text: img.caption.text
-			}
+				text: if img.caption?.text? then img.caption.text else "Untitled"
+			} if img.user.username is "stianeik"
 		
 		res.json output
 		querycache = output
