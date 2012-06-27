@@ -9,7 +9,7 @@
     "instagram": "git://github.com/Swizec/nodestagram.git#master"
   },
   "engines": {
-    "node": "0.6.x",
-    "npm":  "1.0.x"
+    "node": "0.8.x",
+    "npm":  "1.1.x"
   }
 }
