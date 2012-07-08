@@ -5,23 +5,22 @@ Instagram = require 'instagram'
 client_id = process.env.CLIENT_ID or throw "Missing Client ID"
 client_secret = process.env.CLIENT_SECRET or throw "Missing Client Secret"
 access_token = process.env.ACCESS_TOKEN or throw "Missing User Access Token"
+user_id = process.env.USER_ID or throw "Missing Instagram UserID"
 
 instagram = Instagram.createClient client_id, client_secret
 
 app = Express.createServer Express.logger()
 app.enable "jsonp callback"
 
-querycache = false
-
-userid = 104924275
+querycache = null
 
 app.get '/', (req, res) ->
 	
-	if querycache != false
+	if querycache is not null
 		res.json querycache
 		return
 	
-	instagram.users.media userid, { access_token: access_token, count: 200 }, (images, error, pagination) ->
+	instagram.users.media user_id, { access_token: access_token, count: 200 }, (images, error, pagination) ->
 
 		if error
 			res.send "Something went wrong..", 503
@@ -41,7 +40,7 @@ app.get '/', (req, res) ->
 		res.json output
 		querycache = output
 		
-		setTimeout (() -> querycache = false), 20*1000
+		setTimeout (() -> querycache = null), 20*1000
 
 port = process.env.PORT or 9000;
 app.listen port, () ->
