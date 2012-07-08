@@ -13,13 +13,15 @@ app.enable "jsonp callback"
 
 querycache = false
 
+userid = 104924275
+
 app.get '/', (req, res) ->
 	
 	if querycache != false
 		res.json querycache
 		return
 	
-	instagram.users.self { access_token: access_token, count: 200 }, (images, error, pagination) ->
+	instagram.users.media userid, { access_token: access_token, count: 200 }, (images, error, pagination) ->
 
 		if error
 			res.send "Something went wrong..", 503
@@ -34,7 +36,7 @@ app.get '/', (req, res) ->
 				link: img.link
 				image: img.images.low_resolution
 				text: if img.caption?.text? then img.caption.text else "Untitled"
-			} if img.user.username is "stianeik"
+			}
 		
 		res.json output
 		querycache = output
